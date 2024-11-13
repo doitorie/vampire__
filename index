@@ -524,31 +524,27 @@
         }
 
         async function accuse(characterName) {
-            const gameScreen = document.getElementById('gameScreen');
-            let ending;
+    const gameScreen = document.getElementById('gameScreen');
+    let ending;
 
-            if (characterName === '이브' && gameState.isIveSpecial) {
-                ending = "히든엔딩: 당신은 살아남았습니다! '난 인간의 피는 마시지 않아요.'";
-            } else {
-                const endings = {
-                    하와: "당신은 사망했습니다. '아~ 배불렀는데.'",
-                    이브: "당신은 사망했습니다. '정말 미안해요, 미안해요... 배가 고파서...'",
-                    정: "당신은 사망했습니다. '클럽을 너무 들쑤시고 다녔어요. 모른 척하라고 했잖아요.'",
-                    윤: "당신은 사망했습니다. '그게... 뭐, 그렇게 됐네요. (웃음)'"
-                };
-                ending = endings[characterName];
-            }
+    if (characterName === '이브' && gameState.isIveSpecial) {
+        ending = "히든엔딩: 당신은 살아남았습니다! '난 인간의 피는 마시지 않아요.'";
+    } else {
+        const endings = {
+            하와: "당신은 사망했습니다. '아~ 배불렀는데.'",
+            이브: "당신은 사망했습니다. '정말 미안해요, 미안해요... 배가 고파서...'",
+            정: "당신은 사망했습니다. '클럽을 너무 들쑤시고 다녔어요. 모른 척하라고 했잖아요.'",
+            윤: "당신은 사망했습니다. '그게... 뭐, 그렇게 됐네요. (웃음)'"
+        };
+        ending = endings[characterName];
+    }
 
-            gameScreen.innerHTML = `<div class="dialog-box"><div class="dialog-text"></div></div>`;
-gameScreen.innerHTML = `<div class="dialog-box"><div class="dialog-text"></div></div>`;
-           const dialogText = gameScreen.querySelector('.dialog-text');
-           typeWriter(dialogText, ending);
+    gameScreen.innerHTML = `<div class="dialog-box"><div class="dialog-text"></div></div>`;
+    const dialogText = gameScreen.querySelector('.dialog-text');
+    typeWriter(dialogText, ending);
 
-           const choicesContainer = document.getElementById('choicesContainer');
-           choicesContainer.innerHTML = `
-               <button class="start-button" onclick="location.reload()">다시 시작</button>
-           `;
-       }
-   </script>
-</body>
-</html>
+    const choicesContainer = document.getElementById('choicesContainer');
+    choicesContainer.innerHTML = `
+        <button class="start-button" onclick="location.reload()">다시 시작</button>
+    `;
+}
