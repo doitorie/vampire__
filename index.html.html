@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>방법</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                linear-gradient(45deg, rgba(26, 10, 26, 0.7) 0%, rgba(10, 10, 10, 0.7) 100%),
+                url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 95%;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .screen {
+            background-color: rgba(20, 20, 20, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            min-height: 200px;
+            box-shadow: 0 0 20px rgba(128, 0, 128, 0.2);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(128, 0, 128, 0.1);
+        }
+
+        .title-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .game-title {
+            font-size: 4em;
+            color: #d8b4fe;
+            text-shadow: 
+                0 0 10px rgba(216, 180, 254, 0.3),
+                2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            letter-spacing: 0.2em;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            color: #e9d5ff;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .button, .start-button, .dialog-option {
+            background: linear-gradient(135deg, #4a1259, #2a0a2a);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            width: calc(100% - 16px);
+            text-align: center;
+            font-size: 1em;
+        }
+
+        .button:hover, .start-button:hover, .dialog-option:hover {
+            background: linear-gradient(135deg, #6a1b82, #4a1259);
+            transform: translateY(-2px);
+        }
+
+        .disabled {
+            background: #444;
+            cursor: not-allowed;
+        }
+
+        .disabled:hover {
+            transform: none;
+            background: #444;
+        }
+
+        .status-bar {
+            background: linear-gradient(90deg, #2a0a2a, #1a0a1a);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-icon {
+            color: #a855f7;
+        }
+
+        .character-profile {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid rgba(128, 0, 128, 0.2);
+        }
+
+        .character-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 3px solid rgba(128, 0, 128, 0.3);
+            box-shadow: 0 0 15px rgba(128, 0, 128, 0.2);
+        }
+
+        .character-info {
+            flex: 1;
+        }
+
+        .dialog-box {
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            border-left: 3px solid #a855f7;
+        }
+
+        .location-card {
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(128, 0, 128, 0.2);
+        }
+
+        .location-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(128, 0, 128, 0.3);
+        }
+
+        .location-card h4 {
+            color: #d8b4fe;
+            margin-bottom: 10px;
+        }
+
+        .mood-text {
+            font-style: italic;
+            color: #a855f7;
+            margin-top: 10px;
+        }
+
+        .typing {
+            border-right: 2px solid #a855f7;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #a855f7 }
+        }
+
+        .info-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            z-index: 999;
+        }
+
+        .collected-info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            background: rgba(20, 20, 20, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .info-item {
+            border-bottom: 1px solid rgba(128, 0, 128, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+            
+            .character-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .game-title {
+                font-size: 2.5em;
+            }
+
+            .collected-info {
+                width: 95%;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="startScreen" class="screen title-screen">
+            <h1 class="game-title">방법</h1>
+            <p class="subtitle">
+                어쩌다가 뱀파이어 클럽에 가게 된 당신!<br>
+                무사히 살아남기 위해선 '이해'가 필요하다.<br>
+                과연, 당신은 누구와 함께 살아남을 수 있을까?
+            </p>
+            <button class="start-button" onclick="startGame()">시작하기</button>
+        </div>
+
+        <div id="gameContent" style="display: none;">
+            <div class="status-bar">
+                <div class="status-item">
+                    <i class="fas fa-question-circle status-icon"></i>
+                    <span>남은 질문: <span id="remainingQuestions">7</span></span>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-moon status-icon"></i>
+                    <span id="timeStatus">자정</span>
+                </div>
+            </div>
+            
+            <div class="screen" id="gameScreen">
+                <!-- 게임 내용이 여기에 동적으로 표시됩니다 -->
+            </div>
+
+            <div id="choicesContainer">
+                <!-- 선택지가 여기에 동적으로 표시됩니다 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="info-overlay" id="infoOverlay"></div>
+    <div class="collected-info" id="collectedInfo">
+        <!-- 수집된 정보가 여기에 표시됩니다 -->
+    </div>
+
+    <script>
+        // 게임 상태 관리
+        const gameState = {
+            remainingQuestions: 7,
+            collectedInfo: [],
+            currentLocation: null,
+            currentCharacter: null,
+            askedQuestions: {
+                하와: [],
+                이브: [],
+                정: [],
+                윤: []
+            },
+            isIveSpecial: false
+        };
+
+        // 캐릭터 데이터
+        const characters = {
+            하와: {
+                location: "화장실로 향하는 복도",
+                locationDesc: "붉은 네온이 깜빡이는 복도 끝에서는 거울에 비친 그림자들이 춤추는 듯하다. 달콤한 향수 냄새와 묘하게 비린 냄새가 뒤섞여 있다.",
+                description: "검은 새틴 드레스를 입은 여성이 거울 앞에서 진한 레드 립스틱을 바르고 있다. 그녀의 눈동자가 거울에 비친 당신과 마주친다.",
+                mood: "그녀의 입술 끝이 살짝 올라가며 미소 짓는다. 붉은 립스틱이 형광등 아래서 마치 피처럼 번들거린다.",
+                answers: {
+                    "보름달이 뜨는 날을 좋아하시나요?": "달빛은 우리의 본성을 일깨우지. 그날이면 특히 더 목이 말라.",
+                    "이 클럽의 칵테일 중 어떤 걸 선호하시나요?": "아, 순수한 피를 제일 좋아해서 그런건 잘 안마시는데, 인간의 피가 섞인 칵테일 한번 먹어봤는데 여기 꽤 진하더라.",
+                    "이 클럽에서 실종된 사람들은 어떻게 됐을까요?": "궁금하신가요? 직접 확인해보실래요? .... 농담이에요."
+                }
+            },
+            이브: {
+                location: "스피커 옆",
+                locationDesc: "강렬한 베이스 음이 몸을 통과하는 스피커 근처, 어둠 속에서 춤추는 사람들 사이로 한 그림자가 보인다.",
+                description: "검은 후드 아래로 창백한 얼굴이 보이는 여성이 벽에 기대어 서있다. 그녀의 눈동자가 당신을 향한다.",
+                mood: "그녀는 불안한 듯 자주 시선을 피하고, 손가락으로 후드의 끝자락을 만지작거린다.",
+                answers: {
+                    "보름달이 뜨는 날을 좋아하시나요?": "아... 보름달. 그날만큼은 이곳을 피하려고 해요. 통제력을 잃고 싶지 않거든요.",
+                    "이 클럽의 칵테일 중 어떤 걸 선호하시나요?": "난 인간의 피는 마시지 않아요.",
+                    "이 클럽에서 실종된 사람들은 어떻게 됐을까요?": ".....................그런 일이 다시는 없어야 해요. 미안해요."
+                }
+            },
+            정: {
+                location: "바",
+                locationDesc: "붉은 조명이 비치는 바 카운터, 진열된 병들 속에는 이상한 색깔의 액체들이 담겨있다.",
+                description: "와인색 코트를 입은 바텐더가 우아한 손놀림으로 칵테일을 만들고 있다. 그녀의 날카로운 눈매가 인상적이다.",
+                mood: "그녀는 전문가다운 미소를 지으며 당신을 바라본다. 하지만 그 미소가 눈까지 닿지는 않는다.",
+                answers: {
+                    "보름달이 뜨는 날을 좋아하시나요?": "음... 그저 평범한 날이에요. 우리는, 우리가 원하면 언제든 달빛을 피할 수 있으니까요.",
+                    "이 클럽의 칵테일 중 어떤 걸 선호하시나요?": "취향은 시간따라
